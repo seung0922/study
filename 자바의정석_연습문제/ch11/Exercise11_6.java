@@ -46,12 +46,10 @@ class Exercise11_6 {
 //	 TreeSet의 subSet(Object from, Object to)이용
 	static int getGroupCount(TreeSet tset, int from, int to) {
 		// subSet() 매개변수에는 Student객체들어가야한다.
-		Student s1 = (Student)tset.first();
-		Student s2 = (Student)tset.last();
-//		Object[] objArr = {};
-		tset.subSet(s1, true, s2, true).first();
+		Student s1 = new Student("", 0, 0, from, from, from);
+		Student s2 = new Student("", 0, 0, to, to, to);
 		
-		return 0;
+		return tset.subSet(s1, s2).size();
 		
 	}
 
