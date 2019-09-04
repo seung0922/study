@@ -10,7 +10,8 @@ class Exercise13_7 {
 			Thread.sleep(6 * 1000);
 		} catch (Exception e) {
 		}
-		stopped = true; // 쓰레드를 정지시킨다. 
+		stopped = true; // 쓰레드를 정지시킨다.
+		th1.interrupt();
 		System.out.println("stopped");
 	}
 }
