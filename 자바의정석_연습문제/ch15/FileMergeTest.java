@@ -9,42 +9,43 @@ import java.io.*;
 public class FileMergeTest {
 	public static void main(String[] args) {
 		// 파일명을 두개 이상 받아야 하므로 두개 미만이면 오류메세지
-		if(args.length < 2) {
+		if (args.length < 2) {
 			System.out.println("USAGE : java FileMerge filename");
 			System.exit(0);
 		}
-		
+
 		// 첫번째 인자(파일명)은 새로운 파일 생성하고
 		// 그 생성한 새로운 파일에 뒤의 파일들 내용 합쳐 저장
 		// ex) result.txt 1.txt 2.txt => result에 1과 2 합친 내용 저장
-		
+
 		try {
 			// 1. 파일을 읽고 쓸수있게 하는 reader&writer 스트림 생성
 			FileReader fr = null;
-			FileWriter fw = new FileWriter(args[0]);	// 새로운 파일
-			
+			FileWriter fw = new FileWriter(args[0]); // 새로운 파일
+			BufferedWriter bw = new BufferedWriter(fw);
+
 			// 2. 두번째 인자부터 합치는 과정 적용
-			for(int i=1; i<args.length; i++) {
+			for (int i = 1; i < args.length; i++) {
 				// 2-1. 파일 내용 읽어옴
 				String filename = args[i];
 				fr = new FileReader(filename);
-				
+				BufferedReader br = new BufferedReader(fr);
+
 				// 2-2. 읽어온 파일내용을 result에 저장
-				int data = 0;
-				while((data=fr.read()) != -1) {
-					fw.write(data);
+				String line = "";
+				while ((line = br.readLine()) != null) {
+					bw.write(line + "\n");
 				}
 				
-				fw.write("\n");
+				br.close();
+				
 			}
+			bw.close();
 
-			fr.close();
-			fw.close();
-			
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }
