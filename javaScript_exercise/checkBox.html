@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        li {
+            list-style-type: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div><ul>
+            <li><input type="checkbox" value="전체">전체</li>
+            <li><input type="checkbox" value="농구">농구</li>
+            <li><input type="checkbox" value="축구">축구</li>
+            <li><input type="checkbox" value="펀치">펀치</li>
+            <li><input type="checkbox" value="탁구">탁구</li>
+            <li><input type="checkbox" value="PUMP">PUMP</li>
+        </ul>
+    </div>
+
+    <div>
+        <form action="">
+            <textarea name="memo" id="memo" cols="30" rows="10"></textarea>
+        </form>
+    </div>
+    
+    
+    <script>
+        window.onload = function() {
+            // 1. 작업할 대상인 참조를 얻음 (input 배열로 가저온다.)
+            var inputArr = document.getElementsByTagName("input");
+            
+            // 2. textArea에 입력할 배열생성
+            var txtArr = [];
+
+            // 3. 체크누르면 txt배열에 추가/삭제하는 함수
+            var checkBox = function(inp) {
+                // 3-1. 전체 눌렀을 때 모든 요소 다 저장/삭제
+                if(inp.value==="전체") {
+                    // 3-1-1. 배열 모든 요소 다 삭제
+                    txtArr.splice(idx, txtArr.length);
+                    
+                    for(i=1; i<inputArr.length; i++) {
+                        // 3-1-2. 전체가 체크되면 모두 다 txt배열에 저장하고 모두 체크
+                        if(inp.checked===true) {
+                            txtArr.push(inputArr[i].value);
+                            inputArr[i].checked = true;
+                        // 3-1-3. 전체가 체크해제되면 모두 다 체크해제
+                        } else {
+                            inputArr[i].checked = false;
+                        }
+                    }
+
+                // 3-2. 전체가 아닌 다른 요소 눌렀을 때는 하나씩 저장/삭제
+                } else {
+                    // 전체가 아닌 다른 요소를 선택했을 때는 전체가 체크해제되도록 함
+                    inputArr[0].checked = false;
+
+                    // 3-2-1. 해당 요소 위치 변수로 저장
+                    var idx = txtArr.indexOf(inp.value);
+            
+                    // 3-2-2. 해당 요소가 txt배열에 없으면 추가하고
+                    if(idx === -1) {
+                        txtArr.push(inp.value);
+                    // 3-2-3. 해당 요소가 txt배열에 있으면 삭제
+                    } else {
+                        txtArr.splice(idx, 1);
+                    }
+
+                } // else 끝
+
+            } // checkBox 끝
+            
+            // 4. 배열에 저장한 요소들 출력하는 함수
+            var writeTxt = function(arr) {
+                document.getElementById("memo").innerHTML = arr;
+            }
+        
+            // 이벤트 등록
+            for(i=0; i<inputArr.length; i++) {
+                inputArr[i].onclick = function() {
+                    checkBox(this);
+                    writeTxt(txtArr);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

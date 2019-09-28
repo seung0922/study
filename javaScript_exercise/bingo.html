@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <style>
+        body {
+            margin-top: 50px;
+            background-color: #EBECED;
+        }
+        h1, p {
+            color: rgb(58, 58, 58);
+            text-align: center;
+        }
+
+        td:hover {
+            background-color: rgb(231, 204, 143);
+            cursor:pointer;
+        }
+
+        td:active {
+            background-color: #EFAA52;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 350px;
+            height: 300px;
+            margin-left: auto; 
+            margin-right: auto;
+        }
+
+        table, td {
+            padding: 20px;
+            border: 3px solid rgb(73, 73, 73);
+            background-color: #F8F3E6;
+            text-align: center;
+            font-size: 20px;
+            color: rgb(73, 73, 73);
+            table-layout: fixed;
+        }
+
+
+
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1>B&nbsp;&nbsp;&nbsp;I&nbsp;&nbsp;&nbsp;N&nbsp;&nbsp;&nbsp;G&nbsp;&nbsp;&nbsp;O</h1>
+    </div>
+
+    <script>
+        // 1. 5x5 배열을 선언
+        var arr = [];
+        for(i=0; i<5; i++) {
+            arr[i] = new Array(5);
+        }
+
+        // 2. 배열을 초기화(1~25의 값으로)
+        for(i=0; i<5; i++) {
+            for(j=0; j<5; j++) {
+                arr[i][j] = i*5 + j + 1;
+            }
+        }
+        
+        // 3. 배열을 섞는다.
+        for(i=0; i<5; i++) {
+            for(j=0; j<5; j++) {
+                var x = parseInt(Math.random() * 5);
+                var y = parseInt(Math.random() * 5);
+                var tmp = 0;
+                tmp = arr[i][j];
+                arr[i][j] = arr[x][y];
+                arr[x][y] = tmp;
+            }
+        }
+
+    </script>
+
+    <!-- 랜덤배열 출력 -->
+    <table>
+        <script>
+            // 4. 배열을 출력한다. document.write() 사용
+            for(i=0; i<5; i++) {
+                document.write("<tr>")
+                for(j=0; j<5; j++) {
+                    document.write("<td>" + arr[i][j] + "</td>");
+                }
+                document.write("</tr>")
+            }
+        </script>
+    </table>
+
+    <script>
+        var count = function(arr) {
+            var preResult = 0;
+            var result = 0;
+            var cntW = 0; // 가로 카운트
+            var cntH = 0; // 세로 카운트
+            var cntDiagR = 0; // 오른쪽방향 대각선 카운트
+            var cntDiagL = 0; // 왼쪽방향 대각선 카운트
+            
+            for (i = 0; i < arr.length; i++) {
+                var cntW = 0; // 가로 카운트 초기화
+                var cntH = 0; // 세로 카운트 초기화
+                
+                for (j = 0; j < arr[i].length; j++) {
+                    // 가로
+                    if (arr[i][j].style.backgroundColor==="rgb(231, 204, 143)") cntW++;
+                    
+                    // 세로
+                    if (arr[j][i].style.backgroundColor==="rgb(231, 204, 143)") cntH++;
+                    
+                    // 오른쪽 대각선
+                    if (arr[i][j].style.backgroundColor==="rgb(231, 204, 143)" && i === j) cntDiagR++;
+                    
+                    // 왼쪽 대각선
+                    if (arr[i][j].style.backgroundColor==="rgb(231, 204, 143)" && i + j == 4) cntDiagL++;
+                    
+                }
+                // 가로 빙고
+                if (cntW === 5) result++;
+                
+                // 세로 빙고
+                if (cntH === 5) result++;
+                
+                // 오른쪽 방향 대각선 빙고
+                if (cntDiagR === 5) result++;
+                
+                // 왼쪽 방향 대각선 빙고
+                if (cntDiagL === 5) result++;
+            }
+            return result;
+        }
+
+         // td태그를 배열로 가져온다.
+         var tdTags = document.getElementsByTagName("td");
+            
+            //(2차원 배열에 넣는다.)
+            var tdArr = [];
+            for(i=0; i<5; i++) {
+                tdArr[i] = new Array(5);
+            }
+    
+            var cnt = 0;
+            for(i=0; i<tdArr.length; i++) {
+                for(j=0; j<tdArr[i].length; j++) {
+                    tdArr[i][j] = tdTags[cnt++];
+                }
+            }
+    </script>
+
+    <script>
+        window.onload = function() {
+            // 숫자 클릭하면 색을 바꾸고 빙고의 개수를 출력한다.
+            
+            for(i=0; i<tdArr.length; i++) {
+                for(j=0; j<tdArr[i].length; j++) {
+                    tdArr[i][j].onclick = function() {
+                        var preR = document.getElementById("text").textContent;
+                        this.style.backgroundColor="rgb(231, 204, 143)";
+                        document.getElementById("num1").innerHTML += this.textContent + "&nbsp&nbsp&nbsp";
+                        document.getElementById("text").innerHTML = count(tdArr);
+                        // var currR = document.getElementById("text").textContent;
+                        this.innerHTML = "<i class='fas fa-star' style='font-size:16px;color:#AB3E16;'></i>";
+                        if(parseInt(preR) < count(tdArr)) alert("빙고~!");
+                    }
+                }
+            }
+
+        }
+    </script>
+
+    <div class="txt">
+        <!-- <p>내가 선택한 숫자</p> -->
+        <div>
+            <p><span id="text" style="font-size: 30px;">0</span> BINGO</p>
+        </div>
+        <div>
+            <p>Checked Number</p>
+            <p id="num1"></p>
+        </div>
+    </div>
+
+    
+</body>
+</html>
