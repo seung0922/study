@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div { display: inline-block; }
+        select { width: 100px; height: 160px; }
+        button { margin: 5px; width: 40px; height: 25px; }
+    </style>
+</head>
+<body>
+    <!-- 화면 구성 -->
+    <div>
+        <form>
+            <select id ="left_sel" size="10" multiple>
+                <option value="농구">농구</option>
+                <option value="축구">축구</option>
+                <option value="펀치">펀치</option>
+                <option value="탁구">탁구</option>
+                <option value="PUMP">PUMP</option>
+            </select>
+        </form>
+    </div>
+
+    <div>
+        <button id="LtoR">&gt</button><br>
+        <button id="RtoL">&lt</button><br>
+        <button id="LtoRall">&gt&gt</button><br>
+        <button id="RtoLall">&lt&lt</button><br>
+    </div>
+
+    <div>
+        <form>
+            <select id="right_sel" size="10" multiple>
+            </select>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+    <script>
+        $(document).ready(function() {
+            // 1. 작업할 대상 참조 얻는다.
+            // 버튼
+            var LtoR = $('#LtoR');
+            var RtoL = $('#RtoL');
+            var LtoRall = $('#LtoRall');
+            var RtoLall = $('#RtoLall');
+            
+            // 함수로 만들어보자
+            var move = function(from, to) {
+                $(from).appendTo($(to));
+            };
+
+            // 2. 이벤트 등록
+            // 2-1. '>' 버튼 (왼쪽 => 오른쪽 (선택한것만))
+            LtoR.click(function() {
+                move('#left_sel>option:selected', '#right_sel');
+            });
+            // 2-2. '<' 버튼 (오른쪽 => 왼쪽 (선택한것만))
+            RtoL.click(function() {
+                move('#right_sel>option:selected', '#left_sel');
+            });
+            // 2-3. '>>' 버튼 (왼쪽 => 오른쪽 (모두))
+            LtoRall.click(function() {
+                move('#left_sel > option', '#right_sel');
+            });
+            // 2-3. '<<' 버튼 (오른쪽 => 왼쪽 (모두))
+            RtoLall.click(function() {
+                move('#right_sel > option', '#left_sel');
+            });
+
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        li {
+            list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+    <div><ul>
+            <li><input type="checkbox" value="전체">전체</li>
+            <li><input type="checkbox" value="농구">농구</li>
+            <li><input type="checkbox" value="축구">축구</li>
+            <li><input type="checkbox" value="펀치">펀치</li>
+            <li><input type="checkbox" value="탁구">탁구</li>
+            <li><input type="checkbox" value="PUMP">PUMP</li>
+        </ul>
+    </div>
+
+    <div>
+        <form action="">
+            <textarea name="memo" id="memo" cols="30" rows="10"></textarea>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+    <script>
+        $(document).ready(function() {
+            // 1. 사용할 참조 객체 배열로 가져온다.
+            // input을 1번째부터 갖고와야 전체가 txtarea에 들어가지않음
+            var inputArr = $('input:gt(0)');
+
+            // 이벤트 등록
+            $('input').click(function() {
+                // 2. 전체 클릭했을 때
+                if($(this).val() == "전체") {
+                    // txtarea안비워주고 넣으면 이전에 클릭했던 요소들도 그대로 남아있음
+                    $('#memo').val("");
+                    
+                    // 2-1. 체크되어있으면 모두 다 넣음
+                    // tmp에 inputArr의 value를 모두 다 저장한다.
+                    $.each(inputArr, function(index, item){
+                        // txtarea의 value 가져옴
+                        var memoVal = $("#memo").val();
+                        memoVal += $(item).val();
+
+                        // textarea에 넣는다.
+                        $('#memo').val(memoVal)
+                        
+                        // 모두 체크
+                        $(item).prop('checked', true);
+                    });
+
+                    // 2-2. 체크안되어있으면 초기화
+                    if(!($(this).is(':checked'))) {
+                        // txtarea value 공백으로 초기화
+                        $('#memo').val("");
+
+                        // 모든 체크 해제
+                        $('input').prop('checked', false);
+                    }
+                    
+                // 3. 전체 아닌 다른 것을 클릭했을 때
+                } else {
+                    // 체크된 input 배열 변수로 저장
+                    var chckInputArr = inputArr.filter(':checked');
+                    
+                    $('#memo').val("");
+                    
+                    // 3-1. 체크된것만 txtarea에 넣음
+                    $.each(chckInputArr, function(index, item) {
+                        var memoVal = $("#memo").val();
+                        memoVal += $(item).val();
+                        $('#memo').val(memoVal);
+                    });
+
+                    // 3-2-1. inputArr 모두 체크되어 있으면 전체요소도 체크
+                    if(chckInputArr.length == 5) {
+                        $('input').eq(0).prop('checked', true);
+                    // 3-2-2. inputArr 하나라도 체크되어 있지 않으면 전체요소도 체크해제
+                    } else if(chckInputArr.length != 5) {
+                        $('input').eq(0).prop('checked', false);
+                    }
+                    
+                } // else 끝
+            });
+        });
+    </script>
+</body>
+</html>
